@@ -18,4 +18,26 @@ export class UsersService {
 
     return user;
   }
+
+  async findOneUser(id: number): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    return user;
+  }
+
+  async findUsers(email: string): Promise<Array<User>> {
+    const users = await this.usersRepository.find({
+      where: { email },
+    });
+
+    return users;
+  }
+
+  updateUser(id: number, attrs: Partial<User>): Promise<User> {
+    return null;
+  }
+
+  removeUser(id: number): Promise<void> {
+    return null;
+  }
 }
