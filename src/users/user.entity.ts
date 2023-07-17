@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Logger } from '@nestjs/common';
+import {
+  AfterInsert,
+  AfterRemove,
+  AfterUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -10,4 +18,19 @@ export class User {
 
   @Column()
   password: string;
+
+  @AfterInsert()
+  logInsert() {
+    Logger.log(`Inserted User with ${this.id}`);
+  }
+
+  @AfterRemove()
+  logRemove() {
+    Logger.log(`Removed User with ${this.id}`);
+  }
+
+  @AfterUpdate()
+  logUpdate() {
+    Logger.log(`Updated User with id ${this.id}`);
+  }
 }
