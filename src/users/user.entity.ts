@@ -26,7 +26,7 @@ export class User {
 
   @AfterRemove()
   logRemove() {
-    Logger.log(`Removed User with ${this.id}`);
+    Logger.log('Removed User');
   }
 
   @AfterUpdate()

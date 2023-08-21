@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  Delete,
 } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -30,5 +31,10 @@ export class UsersController {
   @Get()
   async findUsers(@Query('email') email: string): Promise<Array<User>> {
     return await this.usersService.findUsers(email);
+  }
+
+  @Delete('/:id')
+  async removeUser(@Param('id') id: string): Promise<User> {
+    return await this.usersService.removeUser(parseInt(id));
   }
 }
