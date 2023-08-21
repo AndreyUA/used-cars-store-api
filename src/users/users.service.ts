@@ -33,11 +33,16 @@ export class UsersService {
     return users;
   }
 
-  updateUser(id: number, attrs: Partial<User>): Promise<User> {
-    return null;
+  async updateUser(id: number, attrs: Partial<User>): Promise<User> {
+    const user = await this.findOneUser(id);
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    return await this.usersRepository.save({ ...user, ...attrs });
   }
 
-  removeUser(id: number): Promise<void> {
+  async removeUser(id: number): Promise<void> {
     return null;
   }
 }
