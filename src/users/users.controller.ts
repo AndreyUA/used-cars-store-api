@@ -7,6 +7,8 @@ import {
   Post,
   Query,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +25,7 @@ export class UsersController {
     return await this.usersService.createUser(body.email, body.password);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('/:id')
   async findOneUser(@Param('id') id: string): Promise<User> {
     return await this.usersService.findOneUser(parseInt(id));
