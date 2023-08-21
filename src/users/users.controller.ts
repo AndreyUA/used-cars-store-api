@@ -28,7 +28,6 @@ export class UsersController {
     return await this.usersService.findOneUser(parseInt(id));
   }
 
-  // TODO: validate empty query
   @Get()
   async findUsers(@Query('email') email: string): Promise<Array<User>> {
     return await this.usersService.findUsers(email);
