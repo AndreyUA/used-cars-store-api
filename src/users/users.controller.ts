@@ -7,14 +7,13 @@ import {
   Post,
   Query,
   Delete,
-  UseInterceptors,
 } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 
 @Controller('auth')
@@ -26,7 +25,7 @@ export class UsersController {
     return await this.usersService.createUser(body.email, body.password);
   }
 
-  @UseInterceptors(new SerializeInterceptor(UserDto))
+  @Serialize(UserDto)
   @Get('/:id')
   async findOneUser(@Param('id') id: string): Promise<User> {
     return await this.usersService.findOneUser(parseInt(id));
