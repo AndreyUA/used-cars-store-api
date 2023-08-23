@@ -26,6 +26,11 @@ export class UsersController {
     private usersService: UsersService,
   ) {}
 
+  @Get('/whoami')
+  async whoAmI(@Session() session: any): Promise<User> {
+    return await this.usersService.findOneUser(session.userId);
+  }
+
   @Post('/signup')
   async signup(
     @Body() body: CreateUserDto,
