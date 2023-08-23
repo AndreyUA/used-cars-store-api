@@ -53,6 +53,11 @@ export class UsersController {
     return user;
   }
 
+  @Post('signout')
+  signout(@Session() session: any): void {
+    session.userId = null;
+  }
+
   @Get('/:id')
   async findOneUser(@Param('id') id: string): Promise<User> {
     return await this.usersService.findOneUser(parseInt(id));
