@@ -17,6 +17,7 @@ import { User } from './user.entity';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -27,7 +28,14 @@ export class UsersController {
   ) {}
 
   @Get('/whoami')
-  async whoAmI(@Session() session: any): Promise<User> {
+  async whoAmI(
+    @Session() session: any,
+    @CurrentUser() user: string,
+  ): Promise<User> {
+    console.log(
+      '🚀 ~ file: users.controller.ts:35 ~ UsersController ~ user:',
+      user,
+    );
     return await this.usersService.findOneUser(session.userId);
   }
 
