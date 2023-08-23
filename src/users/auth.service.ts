@@ -12,7 +12,7 @@ const scrypt = promisify(_scrypt);
 export class AuthService {
   constructor(private userService: UsersService) {}
 
-  async signUp(email: string, password: string): Promise<User> {
+  async signup(email: string, password: string): Promise<User> {
     const users = await this.userService.findUsers(email);
 
     if (users.length) {
@@ -28,7 +28,7 @@ export class AuthService {
     return user;
   }
 
-  signIn(): void {
+  signin(): void {
     return null;
   }
 }
