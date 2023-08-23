@@ -4,6 +4,7 @@ import {
   NestInterceptor,
   UseInterceptors,
 } from '@nestjs/common';
+
 import { ClassConstructor, plainToClass } from 'class-transformer';
 import { Observable, map } from 'rxjs';
 
@@ -15,7 +16,7 @@ export class SerializeInterceptor<DtoType> implements NestInterceptor {
   constructor(private dto: ClassConstructor<DtoType>) {}
 
   intercept(
-    context: ExecutionContext,
+    _context: ExecutionContext,
     handler: CallHandler<DtoType>,
   ): Observable<DtoType> {
     // ! Run something before a request is handled by the request handler
