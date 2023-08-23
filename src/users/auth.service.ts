@@ -1,7 +1,11 @@
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { User } from './user.entity';
@@ -28,7 +32,20 @@ export class AuthService {
     return user;
   }
 
-  signin(): void {
-    return null;
+  async signin(email: string, password: string): Promise<User> {
+    const user = (await this.userService.findUsers(email))[0];
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const [salt, existsHash] = user.password.split('.');
+    const hash = (await scrypt(password, salt, 32)) as Buffer;
+
+    if (existsHash !== hash.toString('hex')) {
+      throw new BadRequestException();
+    }
+
+    return user;
   }
 }
