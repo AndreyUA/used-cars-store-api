@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # sqlite files
 *.sqlite
+
+# environment files
+.env
