@@ -16,7 +16,7 @@ import { Report } from './reports/report.entity';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        type: 'sqlite',
+        type: process.env.NODE_ENV === 'test' ? 'sqlite' : 'sqlite',
         database: config.get<string>('DB_NAME'),
         entities: [User, Report],
         synchronize: true,
