@@ -16,14 +16,23 @@ describe('AuthService', () => {
   let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
+    const users: Array<User> = [];
+
     fakeUsersService = {
-      findUsers: (email: string) => Promise.resolve([]),
-      createUser: (email: string, password: string) =>
-        Promise.resolve({
-          id: 1,
+      findUsers: (email: string) => {
+        const filteredUsers = users.filter((user) => user.email === email);
+
+        return Promise.resolve(filteredUsers);
+      },
+      createUser: (email: string, password: string) => {
+        users.push({
+          id: Math.floor(Math.random() * 999999),
           email,
           password,
-        } as User),
+        } as User);
+
+        return Promise.resolve(users.at(-1));
+      },
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -96,17 +105,7 @@ describe('AuthService', () => {
   });
 
   it('returns a user if correct email and password provided', async () => {
-    const salt = randomBytes(8).toString('hex');
-    const hash = (await scrypt(password, salt, 32)) as Buffer;
-    const resultPassword = `${salt}.${hash.toString('hex')}`;
-
-    const userObject = {
-      id: 1,
-      email,
-      password: resultPassword,
-    } as User;
-
-    fakeUsersService.findUsers = () => Promise.resolve([userObject]);
+    await service.signup(email, password);
 
     const user = await service.signin(email, password);
 
