@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
@@ -69,14 +69,7 @@ describe('AuthService', () => {
   });
 
   it('throws an error if user signs up with exists email', async () => {
-    fakeUsersService.findUsers = () =>
-      Promise.resolve([
-        {
-          id: 1,
-          email,
-          password,
-        } as User,
-      ]);
+    await service.signup(email, password);
 
     await expect(service.signup(email, password)).rejects.toThrow(
       BadRequestException,
@@ -90,16 +83,9 @@ describe('AuthService', () => {
   });
 
   it('throws if an invalid password is provided', async () => {
-    fakeUsersService.findUsers = () =>
-      Promise.resolve([
-        {
-          id: 1,
-          email,
-          password,
-        } as User,
-      ]);
+    await service.signup(email, password);
 
-    await expect(service.signin(email, password)).rejects.toThrow(
+    await expect(service.signin(email, `${password}1111`)).rejects.toThrow(
       BadRequestException,
     );
   });
