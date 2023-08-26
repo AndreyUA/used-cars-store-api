@@ -6,11 +6,6 @@ import { User } from './user.entity';
 
 const email = 'asdf@asdf.com';
 const password = 'qqqwwweee';
-const user = {
-  id: 123,
-  email,
-  password,
-} as User;
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -19,15 +14,48 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     fakeUsersService = {
-      findOneUser: (id: number) => Promise.resolve(user),
-      findUsers: (email: string) => Promise.resolve([user]),
-      removeUser: (id: number) => Promise.resolve(user),
-      updateUser: (id: number, attrs: Partial<User>) => Promise.resolve(user),
+      findOneUser: (id: number) => {
+        return Promise.resolve({
+          id,
+          email,
+          password,
+        } as User);
+      },
+      findUsers: (email: string) => {
+        return Promise.resolve([
+          {
+            id: 123123,
+            email,
+            password,
+          } as User,
+        ]);
+      },
+      removeUser: (id: number) =>
+        Promise.resolve({
+          id,
+          email,
+          password,
+        } as User),
+      updateUser: (id: number, attrs: Partial<User>) =>
+        Promise.resolve({
+          id,
+          ...attrs,
+        } as User),
     };
 
     fakeAuthService = {
-      signup: (email: string, password: string) => Promise.resolve(user),
-      signin: (email: string, password: string) => Promise.resolve(user),
+      signup: (email: string, password: string) =>
+        Promise.resolve({
+          id: 123,
+          email,
+          password,
+        } as User),
+      signin: (email: string, password: string) =>
+        Promise.resolve({
+          id: 123,
+          email,
+          password,
+        } as User),
     };
 
     const module: TestingModule = await Test.createTestingModule({
