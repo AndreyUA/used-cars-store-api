@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { scrypt as _scrypt } from 'crypto';
+import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
@@ -93,5 +93,23 @@ describe('AuthService', () => {
     await expect(service.signin(email, password)).rejects.toThrow(
       BadRequestException,
     );
+  });
+
+  it('returns a user if correct email and password provided', async () => {
+    const salt = randomBytes(8).toString('hex');
+    const hash = (await scrypt(password, salt, 32)) as Buffer;
+    const resultPassword = `${salt}.${hash.toString('hex')}`;
+
+    const userObject = {
+      id: 1,
+      email,
+      password: resultPassword,
+    } as User;
+
+    fakeUsersService.findUsers = () => Promise.resolve([userObject]);
+
+    const user = await service.signin(email, password);
+
+    expect(user).toBeDefined();
   });
 });
