@@ -86,5 +86,4 @@ export class UsersController {
   }
 }
 
-// TODO: Skipped section 13
-// TODO: didn't watch 123 video because of tests!
+// TODO: stopped on 123 video
