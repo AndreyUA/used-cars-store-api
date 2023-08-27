@@ -22,6 +22,7 @@ const cookieSession = require('cookie-session');
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
+        // TODO: change non test env DB type to postgresql
         type: process.env.NODE_ENV === 'test' ? 'sqlite' : 'sqlite',
         database: config.get<string>('DB_NAME'),
         entities: [User, Report],
