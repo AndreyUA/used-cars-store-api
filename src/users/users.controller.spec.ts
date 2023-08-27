@@ -103,4 +103,13 @@ describe('UsersController', () => {
     expect(user).toBeDefined();
     expect(user.id).toEqual(1);
   });
+
+  it('signin updates session object and returns user', async () => {
+    const session = {};
+    const user = await controller.signin({ email, password } as User, session);
+
+    expect(user).toBeDefined();
+    expect(user.id).toEqual(123);
+    expect(session?.['userId']).toEqual(123);
+  });
 });
