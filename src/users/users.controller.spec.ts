@@ -89,4 +89,11 @@ describe('UsersController', () => {
       NotFoundException,
     );
   });
+
+  it('findUsers returns a list of users with the given email', async () => {
+    const users = await controller.findUsers(email);
+
+    expect(users.length).toEqual(1);
+    expect(users[0].email).toEqual(email);
+  });
 });
