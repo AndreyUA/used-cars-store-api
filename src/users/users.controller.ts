@@ -85,5 +85,3 @@ export class UsersController {
     return await this.usersService.updateUser(parseInt(id), body);
   }
 }
-
-// TODO: stopped on 123 video
