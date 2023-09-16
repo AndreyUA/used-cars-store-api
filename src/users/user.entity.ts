@@ -1,10 +1,12 @@
 import { Logger } from '@nestjs/common';
+import { Report } from 'src/reports/report.entity';
 import {
   AfterInsert,
   AfterRemove,
   AfterUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,6 +14,9 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Array<Report>;
 
   @Column()
   email: string;
