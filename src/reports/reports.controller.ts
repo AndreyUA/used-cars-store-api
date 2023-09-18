@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -16,6 +18,7 @@ import { Report } from './report.entity';
 import { ApproveReportDto } from './dto/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { Serialize } from 'src/decorators/serialize.decorator';
+import { GetEstimateDto } from './dto/get-estimate.dto';
 
 @Serialize(ReportDto)
 @Controller('reports')
@@ -43,5 +46,10 @@ export class ReportsController {
       body.approved,
       user,
     );
+  }
+
+  @Get()
+  async getEstimate(@Query() query: GetEstimateDto): Promise<null> {
+    return null;
   }
 }
