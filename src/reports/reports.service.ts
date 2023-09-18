@@ -50,11 +50,35 @@ export class ReportsService {
     return { ...report, user };
   }
 
-  async getEstimate(estimateDto: GetEstimateDto): Promise<any> {
+  async getEstimate({
+    make,
+    model,
+    lat,
+    lng,
+    year,
+    mileage,
+  }: GetEstimateDto): Promise<any> {
+    /*
+    average price of selected reports
+
+    select by MAKE and MODEL
+    -5 < lng < 5
+    -5 < lat < 5
+    -5 < year < 5
+    -3 < mileage < 3
+    and sorted then
+    */
     return await this.reportRepository
       .createQueryBuilder()
-      .select('*')
-      .where('make = :make', { make: estimateDto.make })
-      .getRawMany();
+      .select('AVG(price)', 'price')
+      .where('make = :make', { make })
+      .andWhere('model = :model', { model })
+      .andWhere('lng - :lng BETWEEN -5 AND 5', { lng })
+      .andWhere('lat - :lat BETWEEN -5 AND 5', { lat })
+      .andWhere('year - :year BETWEEN -3 AND 3', { year })
+      .orderBy('ABS(mileage - :mileage) ', 'DESC')
+      .setParameters({ mileage })
+      .limit(3)
+      .getRawOne();
   }
 }
