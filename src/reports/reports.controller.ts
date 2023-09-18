@@ -50,6 +50,10 @@ export class ReportsController {
 
   @Get()
   async getEstimate(@Query() query: GetEstimateDto): Promise<null> {
+    console.log(
+      '🚀 ~ file: reports.controller.ts:53 ~ ReportsController ~ getEstimate ~ query:',
+      query,
+    );
     return null;
   }
 }
