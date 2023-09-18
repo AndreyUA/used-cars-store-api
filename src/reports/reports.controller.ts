@@ -12,10 +12,10 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { User } from 'src/users/user.entity';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { ReportDto } from './dto/report.dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { Report } from './report.entity';
 import { ApproveReportDto } from './dto/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
+import { Serialize } from 'src/decorators/serialize.decorator';
 
 @Serialize(ReportDto)
 @Controller('reports')
