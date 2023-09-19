@@ -44,12 +44,14 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
     // ! Global cookies middleware
     consumer
       .apply(
         cookieSession({
-          keys: ['randomString'],
+          keys: [this.configService.get<string>('COOKIES_KEY')],
         }),
       )
       .forRoutes('*');
