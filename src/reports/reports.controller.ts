@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ReportsService } from './reports.service';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { User } from 'src/users/user.entity';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { AuthGuard } from '../guards/auth.guard';
+import { User } from '../users/user.entity';
+import { CurrentUser } from '../decorators/current-user.decorator';
 import { ReportDto } from './dto/report.dto';
 import { Report } from './report.entity';
 import { ApproveReportDto } from './dto/approve-report.dto';
-import { AdminGuard } from 'src/guards/admin.guard';
-import { Serialize } from 'src/decorators/serialize.decorator';
+import { AdminGuard } from '../guards/admin.guard';
+import { Serialize } from '../decorators/serialize.decorator';
 import { GetEstimateDto } from './dto/get-estimate.dto';
 
 @Serialize(ReportDto)
