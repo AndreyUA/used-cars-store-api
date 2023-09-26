@@ -1,6 +1,6 @@
-import { DataSourceOptions } from 'typeorm';
+import { DataSourceOptions, DataSource } from 'typeorm';
 
-const ormConfig = (): DataSourceOptions => {
+export const ormConfig = (): DataSourceOptions => {
   switch (process.env.NODE_ENV) {
     case 'dev':
     case 'test':
@@ -10,6 +10,7 @@ const ormConfig = (): DataSourceOptions => {
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false,
         migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+        migrationsRun: true,
       };
     case 'prod':
       // TODO: add postgres here
@@ -19,4 +20,6 @@ const ormConfig = (): DataSourceOptions => {
   }
 };
 
-export default ormConfig;
+const dataSource = new DataSource(ormConfig());
+
+export default dataSource;
